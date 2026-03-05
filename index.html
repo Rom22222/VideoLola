@@ -1,19 +1,88 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<style>
-body{margin:0;background:black}
-video{width:100vw;height:100vh;object-fit:contain}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Video</title>
+  <style>
+    body {
+      margin: 0;
+      background: black;
+      overflow: hidden;
+      height: 100vh;
+      font-family: Arial, sans-serif;
+    }
+    #video-container {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+    }
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;   /* cambia a 'cover' si prefieres llenar toda la pantalla */
+    }
+    #play-button {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 120px;
+      height: 120px;
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 50%;
+      border: 4px solid white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      z-index: 10;
+    }
+    #play-button:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: translate(-50%, -50%) scale(1.1);
+    }
+    #play-button::before {
+      content: '';
+      width: 0;
+      height: 0;
+      border-top: 30px solid transparent;
+      border-bottom: 30px solid transparent;
+      border-left: 45px solid white;
+      margin-left: 8px;
+    }
+    .hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+  </style>
 </head>
-
 <body>
+  <div id="video-container">
+    <video id="myVideo" playsinline>
+      <source src="https://github.com/Rom22222/VideoLola/releases/download/1/paco.rosco.mp4" type="video/mp4">
+      Tu navegador no soporta el elemento de video.
+    </video>
 
-<video controls autoplay playsinline>
-<source src="https://github.com/Rom22222/VideoLola/releases/download/1/paco.rosco.mp4" type="video/mp4">
-</video>
+    <div id="play-button" onclick="playVideo()"></div>
+  </div>
 
+  <script>
+    const video = document.getElementById('myVideo');
+    const playButton = document.getElementById('play-button');
+
+    function playVideo() {
+      video.play().then(() => {
+        playButton.classList.add('hidden');
+      }).catch(error => {
+        console.log("Error al reproducir:", error);
+        // En caso de error (muy raro aquí), puedes mostrar un mensaje si quieres
+      });
+    }
+
+    // Opcional: también reproducir si hacen clic en cualquier parte del video
+    video.addEventListener('click', playVideo);
+  </script>
 </body>
 </html>
